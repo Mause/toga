@@ -1,0 +1,1 @@
+Support for camera on Winforms was added.
