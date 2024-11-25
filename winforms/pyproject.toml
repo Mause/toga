@@ -63,6 +63,15 @@ root = ".."
 dependencies = [
     "pythonnet >= 3.0.0",
     "toga-core == {version}",
+    "winrt-runtime==2.3.0",
+    "winrt-Windows.Foundation==2.3.0",
+    "winrt-Windows.Graphics==2.3.0",
+    "winrt-Windows.Graphics.Imaging==2.3.0",
+    "winrt-Windows.Media==2.3.0",
+    "winrt-Windows.Media.Capture==2.3.0",
+    "winrt-Windows.Media.MediaProperties==2.3.0",
+    "winrt-Windows.Storage.Streams==2.3.0",
+    "winrt-WindowsAppSDK==2.3.0",
 ]
 
 [tool.coverage.run]
