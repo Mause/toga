@@ -19,5 +19,5 @@ class CameraProbe(HardwareProbe):
     def allow_permission(self):
         pass
 
-    def request_permission_on_first_se(self):
+    def request_permission_on_first_use(self):
         pass
