@@ -11,6 +11,7 @@ from System.Device.Location import (
 )
 
 from toga import LatLng
+from toga.handlers import AsyncResult
 
 
 def toga_location(location: GeoCoordinate):
@@ -24,6 +25,8 @@ def toga_location(location: GeoCoordinate):
 
 
 class Location:
+    _location: Future
+
     def __init__(self, interface):
         self.watcher = GeoCoordinateWatcher(GeoPositionAccuracy.Default)
         self.watcher.add_PositionChanged(
@@ -32,29 +35,31 @@ class Location:
             )
         )
         self.watcher.Start()
+        self._location = Future()
+        self._has_permission = True
 
     def _position_changed(
         self, sender, event: GeoPositionChangedEventArgs[GeoCoordinate]
     ):
-        self._position = event.Position.Location
+        self._location.set_result(event.Position.Location)
 
     def has_permission(self):
-        return True
+        return self._has_permission
 
     def has_background_permission(self):
-        return True
+        return self._has_permission
 
-    def request_permission(self, future: Future):
+    def request_permission(self, future: AsyncResult[bool]) -> None:
         future.set_result(True)
 
-    def request_background_permission(self, future: Future):
+    def request_background_permission(self, future: AsyncResult[bool]) -> None:
         future.set_result(True)
 
-    def current_location(self, result: Future):
-        result.set_result(toga_location(self._position))
+    def current_location(self, result: AsyncResult[dict]) -> None:
+        result.set_result(toga_location(self._location.result(timeout=5)))
 
-    def start_tracking(self):
+    def start_tracking(self) -> None:
         self.watcher.Start()
 
-    def stop_tracking(self):
+    def stop_tracking(self) -> None:
         self.watcher.Stop()
