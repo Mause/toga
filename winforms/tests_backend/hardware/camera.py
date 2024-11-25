@@ -21,3 +21,10 @@ class CameraProbe(HardwareProbe):
 
     def request_permission_on_first_use(self):
         pass
+
+    async def wait_for_camera(self):
+        pass
+
+    @property
+    def allow_no_camera(self):
+        return True
