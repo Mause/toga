@@ -2,7 +2,7 @@ from asyncio import Task, get_event_loop
 
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
-from winrt.windows.media.capture import MediaCapture
+from winrt.windows.media.capture import MediaCapture, MediaCaptureInitializationSettings
 from winrt.windows.media.mediaproperties import (
     ImageEncodingProperties,
     MediaPixelFormat,
@@ -47,7 +47,15 @@ class Camera:
 
     async def _take_photo(self, device=None, flash=None):
         mediaCapture = MediaCapture()
-        await mediaCapture.initialize_async()
+
+        settings = MediaCaptureInitializationSettings()
+        if device:
+            settings.video_device_id = device.id
+
+        await mediaCapture.initialize_async(settings)
+
+        if flash:
+            mediaCapture.video_device_controller.flash_control.enabled = True
 
         mediaCapture.add_failed(lambda obj, args: print(args.Message))
 
