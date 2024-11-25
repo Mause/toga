@@ -64,6 +64,8 @@ dependencies = [
     "pythonnet >= 3.0.0",
     "toga-core == {version}",
     "winrt-runtime==2.3.0",
+    "winrt-windows.devices.enumeration==2.3.0",
+    "winrt-windows.foundation.collections==2.3.0",
     "winrt-Windows.Foundation==2.3.0",
     "winrt-Windows.Graphics==2.3.0",
     "winrt-Windows.Graphics.Imaging==2.3.0",

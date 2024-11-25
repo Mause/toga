@@ -1,3 +1,6 @@
+from asyncio import Task, get_event_loop
+
+from winrt.windows.devices.enumeration import DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
 from winrt.windows.media.capture import MediaCapture
 from winrt.windows.media.mediaproperties import (
@@ -10,9 +13,32 @@ from winrt.windows.storage.streams import (
     InputStreamOptions,
 )
 
+from toga.handlers import AsyncResult
+
+
+def set_from(result: AsyncResult, coro):
+    task: Task = get_event_loop().create_task(coro)
+    task.add_done_callback(result.set_result)
+    # task.call TODO: exception callback
+
 
 class Camera:
-    async def take_photo(self):
+    def __init__(self, interface):
+        pass
+
+    def get_devices(self, result: AsyncResult):
+        async def _get():
+            return list(await DeviceInformation.find_all_async())
+
+        set_from(result, _get())
+
+    def has_permission(self) -> bool:
+        return True
+
+    def take_photo(self, photo, device=None, flash=None):
+        set_from(photo, self._take_photo(device, flash))
+
+    async def _take_photo(self, device=None, flash=None):
         mediaCapture = MediaCapture()
         await mediaCapture.initialize_async()
 
@@ -31,6 +57,7 @@ class Camera:
             encoder.set_software_bitmap(softwareBitmap)
             await encoder.flush_async()
             buf = Buffer(stream.size)
+
             return memoryview(
                 await stream.read_async(buf, stream.size, InputStreamOptions.NONE)
             ).tobytes()
