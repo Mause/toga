@@ -18,8 +18,13 @@ from toga.handlers import AsyncResult
 
 def set_from(result: AsyncResult, coro):
     task: Task = get_event_loop().create_task(coro)
-    task.add_done_callback(result.set_result)
-    # task.call TODO: exception callback
+    task.add_done_callback(
+        lambda res: (
+            result.set_exception(res.exception())
+            if res.exception()
+            else result.set_result(res.result())
+        )
+    )
 
 
 class Camera:
