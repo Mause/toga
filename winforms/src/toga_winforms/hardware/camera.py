@@ -1,6 +1,6 @@
 from asyncio import Task, get_event_loop
 
-from winrt.windows.devices.enumeration import DeviceInformation
+from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
 from winrt.windows.media.capture import MediaCapture
 from winrt.windows.media.mediaproperties import (
@@ -33,7 +33,9 @@ class Camera:
 
     def get_devices(self, result: AsyncResult):
         async def _get():
-            return list(await DeviceInformation.find_all_async())
+            return list(
+                await DeviceInformation.find_all_async(DeviceClass.VIDEO_CAPTURE)
+            )
 
         set_from(result, _get())
 
