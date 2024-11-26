@@ -7,12 +7,15 @@ from winrt.windows.media.mediaproperties import (
     ImageEncodingProperties,
     MediaPixelFormat,
 )
+from winrt.Windows.Security.Authorization import (
+    AppCapability,
+    AppCapabilityAccessStatus
+)
 from winrt.windows.storage.streams import (
     Buffer,
     InMemoryRandomAccessStream,
     InputStreamOptions,
 )
-from winrt.Windows.Security.Authorization import AppCapabilityAccess, AppCapabilityAccessStatus
 
 from toga.handlers import AsyncResult
 
@@ -41,9 +44,9 @@ class Camera:
         set_from(result, _get())
 
     def has_permission(self) -> bool:
-        status = AppCapability.create("Webcam").check_access();
-        
-        return status == AppCapabilityAccessStatus.Allowed;
+        status = AppCapability.create("Webcam").check_access()
+
+        return status == AppCapabilityAccessStatus.Allowed
 
     def take_photo(self, photo, device=None, flash=None):
         set_from(photo, self._take_photo(device, flash))
@@ -55,7 +58,8 @@ class Camera:
         if device:
             settings.video_device_id = device.id
 
-        await mediaCapture.initialize_async(settings)  # TODO: handle permissions failure here
+        # TODO: handle permissions failure here
+        await mediaCapture.initialize_async(settings)
 
         if flash:
             mediaCapture.video_device_controller.flash_control.enabled = True
