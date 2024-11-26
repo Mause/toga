@@ -46,7 +46,7 @@ class Camera:
     def has_permission(self) -> bool:
         status = AppCapability.create("Webcam").check_access()
 
-        return status == AppCapabilityAccessStatus.Allowed
+        return status == AppCapabilityAccessStatus.ALLOWED
 
     def take_photo(self, photo, device=None, flash=None):
         set_from(photo, self._take_photo(device, flash))
