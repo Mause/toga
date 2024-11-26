@@ -19,11 +19,20 @@ class CameraProbe(HardwareProbe):
     def allow_permission(self):
         pass
 
+    def press_shutter_button(self):
+        pass
+
     def request_permission_on_first_use(self):
         pass
 
-    async def wait_for_camera(self):
+    def cancel_photo(self):
         pass
+
+    def select_other_camera(self):
+        pass
+
+    async def wait_for_camera(self, device_count: int = 0):
+        await self.redraw("Camera view displayed")
 
     @property
     def allow_no_camera(self):
