@@ -1,4 +1,4 @@
-from asyncio import Task, get_event_loop
+from asyncio import Task, ensure_future, get_event_loop
 from dataclasses import dataclass
 
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
@@ -61,7 +61,9 @@ class Camera:
         return status == AppCapabilityAccessStatus.ALLOWED
 
     def request_permission(self, future: AsyncResult):
-        AppCapability.create("Webcam").request_access_async().add_done_callback(
+        ensure_future(
+            AppCapability.create("Webcam").request_access_async()
+        ).add_done_callback(
             lambda status: future.set_result(
                 status == AppCapabilityAccessStatus.ALLOWED
             )
