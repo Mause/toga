@@ -1,6 +1,10 @@
+import faulthandler
+
 from pytest import xfail
 
 from .hardware import HardwareProbe
+
+faulthandler.enable()
 
 
 class CameraProbe(HardwareProbe):
