@@ -1,4 +1,4 @@
-from asyncio import Task, get_event_loop, run_until_complete
+from asyncio import Task, get_event_loop
 
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
@@ -42,7 +42,7 @@ class Camera:
                 await DeviceInformation.find_all_async(DeviceClass.VIDEO_CAPTURE)
             )
 
-        return run_until_complete(_get())
+        return get_event_loop().run_until_complete(_get())
 
     def has_permission(self) -> bool:
         status = AppCapability.create("Webcam").check_access()
