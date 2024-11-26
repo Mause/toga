@@ -7,7 +7,7 @@ from winrt.windows.media.mediaproperties import (
     ImageEncodingProperties,
     MediaPixelFormat,
 )
-from winrt.windows.security.authorization import (
+from winrt.windows.security.authorization.appcapabilityaccess import (
     AppCapability,
     AppCapabilityAccessStatus,
 )
