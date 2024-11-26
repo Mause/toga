@@ -1,4 +1,5 @@
 from asyncio import Task, get_event_loop
+from dataclasses import dataclass
 
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
@@ -31,6 +32,13 @@ def set_from(result: AsyncResult, coro):
     )
 
 
+@dataclass
+class DeviceInfo:
+    id: str
+    name: str
+    has_flash: bool
+
+
 class Camera:
     def __init__(self, interface):
         pass
@@ -38,9 +46,12 @@ class Camera:
     def get_devices(self):
         # TODO: why isn't get_devices async?
         async def _get():
-            return list(
-                await DeviceInformation.find_all_async(DeviceClass.VIDEO_CAPTURE)
-            )
+            return [
+                DeviceInfo(dev.id, dev.name, dev.flash_control.supported)
+                for dev in await DeviceInformation.find_all_async(
+                    DeviceClass.VIDEO_CAPTURE
+                )
+            ]
 
         return get_event_loop().run_until_complete(_get())
 
@@ -66,7 +77,6 @@ class Camera:
         if device:
             settings.video_device_id = device.id
 
-        # TODO: handle permissions failure here
         await mediaCapture.initialize_async(settings)
 
         if flash:
