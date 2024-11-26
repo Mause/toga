@@ -2,12 +2,12 @@ import faulthandler
 
 from pytest import xfail
 
-from .hardware import HardwareProbe
+from .hardware import CameraProbeMixin, HardwareProbe
 
 faulthandler.enable()
 
 
-class CameraProbe(HardwareProbe):
+class CameraProbe(HardwareProbe, CameraProbeMixin):
     def cleanup(self):
         pass
 
