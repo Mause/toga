@@ -9,7 +9,7 @@ from winrt.windows.media.mediaproperties import (
 )
 from winrt.Windows.Security.Authorization import (
     AppCapability,
-    AppCapabilityAccessStatus
+    AppCapabilityAccessStatus,
 )
 from winrt.windows.storage.streams import (
     Buffer,
