@@ -28,8 +28,8 @@ class CameraProbe(HardwareProbe):
     def allow_permission(self):
         pass
 
-    def press_shutter_button(self, photo):
-        pass
+    async def press_shutter_button(self, photo):
+        return "image", "device_used", "flash_mode"
 
     def request_permission_on_first_use(self):
         pass
