@@ -10,7 +10,7 @@ from .probe import get_probe
 
 @pytest.fixture
 async def camera_probe(monkeypatch, app_probe):
-    skip_on_platforms("linux", "windows")
+    skip_on_platforms("linux")
     skip_if_unbundled_app()
     probe = get_probe(monkeypatch, app_probe, "Camera")
     yield probe
