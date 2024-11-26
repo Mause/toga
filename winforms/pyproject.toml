@@ -74,6 +74,7 @@ dependencies = [
     "winrt-Windows.Media.MediaProperties==2.3.0",
     "winrt-Windows.Storage.Streams==2.3.0",
     "winrt-WindowsAppSDK==2.3.0",
+    "winrt-Windows.Security.Authorization==2.3.0",
 ]
 
 [tool.coverage.run]
