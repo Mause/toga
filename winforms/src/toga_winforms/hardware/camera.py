@@ -49,6 +49,13 @@ class Camera:
 
         return status == AppCapabilityAccessStatus.ALLOWED
 
+    def request_permission(self, future: AsyncResult):
+        AppCapability.create("Webcam").request_access_async().add_done_callback(
+            lambda status: future.set_result(
+                status == AppCapabilityAccessStatus.ALLOWED
+            )
+        )
+
     def take_photo(self, photo, device=None, flash=None):
         set_from(photo, self._take_photo(device, flash))
 
