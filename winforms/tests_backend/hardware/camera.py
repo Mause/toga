@@ -14,6 +14,11 @@ class CameraProbe(HardwareProbe):
     def grant_permission(self):
         pass
 
+    @property
+    def shutter_enabled(self):
+        # Shutter can't be disabled
+        return True
+
     def reject_permission(self):
         xfail("Winforms does not support camera permissions")
 
@@ -23,13 +28,13 @@ class CameraProbe(HardwareProbe):
     def allow_permission(self):
         pass
 
-    def press_shutter_button(self):
+    def press_shutter_button(self, photo):
         pass
 
     def request_permission_on_first_use(self):
         pass
 
-    def cancel_photo(self):
+    def cancel_photo(self, photo):
         pass
 
     def select_other_camera(self):
