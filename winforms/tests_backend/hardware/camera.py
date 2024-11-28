@@ -36,7 +36,7 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
     def request_permission_on_first_use(self):
         pass
 
-    def cancel_photo(self, photo):
+    async def cancel_photo(self, photo):
         pass
 
     def select_other_camera(self):
