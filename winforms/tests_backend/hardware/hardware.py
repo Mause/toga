@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from pillow import Image
+
 from ..app import AppProbe
 
 
@@ -55,7 +57,7 @@ class CameraProbeMixin(ABC):
         pass
 
     @abstractmethod
-    async def press_shutter_button(self, photo) -> tuple[str, str, str]:
+    async def press_shutter_button(self, photo) -> tuple[Image, str, str]:
         pass
 
     @abstractmethod
