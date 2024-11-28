@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from typing import TYPE_CHECKING, Any
 
 from toga.constants import FlashMode
@@ -13,6 +14,10 @@ if TYPE_CHECKING:
 
 class PhotoResult(AsyncResult):
     RESULT_TYPE = "photo"
+
+
+class DevicesResult(AsyncResult):
+    RESULT_TYPE = "devices"
 
 
 class CameraDevice:
@@ -90,7 +95,18 @@ class Camera:
     @property
     def devices(self) -> list[CameraDevice]:
         """The list of available camera devices."""
+
+        sig = inspect.signature(self._impl.get_devices)
+
+        if len(sig.parameters) != 0:
+            raise DeprecationWarning("use get_devices")
+
         return [CameraDevice(impl) for impl in self._impl.get_devices()]
+
+    async def get_devices(self) -> list[CameraDevice]:
+        devices = DevicesResult()
+        self._impl.get_devices()
+        return [CameraDevice(impl) for impl in await devices]
 
     def take_photo(
         self,

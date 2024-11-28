@@ -1,4 +1,4 @@
-from asyncio import ensure_future, get_event_loop
+from asyncio import ensure_future
 from collections.abc import Coroutine
 from dataclasses import dataclass
 
@@ -38,8 +38,7 @@ class Camera:
     def __init__(self, interface):
         pass
 
-    def get_devices(self):
-        # TODO: why isn't get_devices async?
+    def get_devices(self, result: AsyncResult = None):
         async def _get():
             return [
                 DeviceInfo(dev.id, dev.name, dev.flash_control.supported)
@@ -48,7 +47,10 @@ class Camera:
                 )
             ]
 
-        return get_event_loop().run_until_complete(_get())
+        if result is None:
+            raise NotImplementedError()
+        else:
+            result.future = ensure_future(_get())
 
     def has_permission(self) -> bool:
         status = AppCapability.create("Webcam").check_access()
