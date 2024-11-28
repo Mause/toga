@@ -19,7 +19,8 @@ async def camera_probe(monkeypatch, app_probe):
 
 async def test_camera_properties(app, camera_probe):
     assert {
-        device.id: (device.name, device.has_flash) for device in app.camera.devices
+        device.id: (device.name, device.has_flash)
+        for device in (await app.camera.get_devices())
     } == camera_probe.known_cameras()
 
 
@@ -62,7 +63,7 @@ async def test_take_photo(app, camera_probe):
     # Ensure the camera has permissions
     camera_probe.grant_permission()
 
-    for camera in [None] + app.camera.devices:
+    for camera in [None] + (await app.camera.get_devices()):
         # Trigger taking a photo
         photo = app.camera.take_photo(device=camera)
         await camera_probe.wait_for_camera()
