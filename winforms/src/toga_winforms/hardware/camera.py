@@ -1,7 +1,9 @@
 from asyncio import ensure_future, get_event_loop
 from collections.abc import Coroutine
 from dataclasses import dataclass
+from io import BytesIO
 
+from pillow import Image
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
 from winrt.windows.graphics.imaging import BitmapEncoder
 from winrt.windows.media.capture import MediaCapture, MediaCaptureInitializationSettings
@@ -88,6 +90,8 @@ class Camera:
             await encoder.flush_async()
             buf = Buffer(stream.size)
 
-            return memoryview(
+            data = memoryview(
                 await stream.read_async(buf, stream.size, InputStreamOptions.NONE)
             ).tobytes()
+
+            return Image.open(BytesIO(data), formats=("png",))
