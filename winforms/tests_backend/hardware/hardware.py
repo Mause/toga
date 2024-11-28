@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 from ..app import AppProbe
 
@@ -11,7 +11,7 @@ class HardwareProbe(AppProbe):
         self.monkeypatch = monkeypatch
 
 
-class CameraProbeMixin(metaclass=ABCMeta):
+class CameraProbeMixin(ABC):
 
     @abstractmethod
     def cleanup(self):
@@ -49,8 +49,8 @@ class CameraProbeMixin(metaclass=ABCMeta):
     async def wait_for_camera(self, device_count=0):
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def shutter_enabled(self):
         pass
 
