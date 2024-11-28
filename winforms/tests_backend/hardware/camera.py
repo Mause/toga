@@ -46,3 +46,15 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
     @property
     def allow_no_camera(self):
         return True
+
+    def known_cameras(self):
+        return {1: ("Front Camera", False)}
+
+    def reset_permission(self):
+        pass
+
+    def same_device(self, device, native):
+        return device.id == native.id
+
+    def same_flash_mode(self, expected, actual):
+        return expected == actual
