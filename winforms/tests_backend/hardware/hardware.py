@@ -1,3 +1,5 @@
+from abc import ABCMeta, abstractmethod
+
 from ..app import AppProbe
 
 
@@ -7,15 +9,6 @@ class HardwareProbe(AppProbe):
         super().__init__(app_probe.app)
 
         self.monkeypatch = monkeypatch
-
-
-try:
-    from collections.abc import ABCMeta, abstractmethod
-except AttributeError:
-    ABCMeta = type
-
-    def abstractmethod(a):
-        return a
 
 
 class CameraProbeMixin(metaclass=ABCMeta):
