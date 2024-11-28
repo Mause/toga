@@ -31,7 +31,13 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
         pass
 
     async def press_shutter_button(self, photo):
-        return Image(b"RGB"), "device_used", "flash_mode"
+        return (
+            Image(
+                path=self.app.paths.app / "resources/photo.png",
+            ),
+            "device_used",
+            "flash_mode",
+        )
 
     def request_permission_on_first_use(self):
         pass
