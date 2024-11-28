@@ -1,4 +1,5 @@
-from asyncio import Task, ensure_future, get_event_loop
+from asyncio import ensure_future, get_event_loop
+from collections.abc import Coroutine
 from dataclasses import dataclass
 
 from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
@@ -21,15 +22,8 @@ from winrt.windows.storage.streams import (
 from toga.handlers import AsyncResult
 
 
-def set_from(result: AsyncResult, coro):
-    task: Task = get_event_loop().create_task(coro)
-    task.add_done_callback(
-        lambda res: (
-            result.set_exception(res.exception())
-            if res.exception()
-            else result.set_result(res.result())
-        )
-    )
+def set_from(result: AsyncResult, coro: Coroutine):
+    result.future = ensure_future(coro)
 
 
 @dataclass
@@ -61,13 +55,7 @@ class Camera:
         return status == AppCapabilityAccessStatus.ALLOWED
 
     def request_permission(self, future: AsyncResult):
-        ensure_future(
-            AppCapability.create("Webcam").request_access_async()
-        ).add_done_callback(
-            lambda status: future.set_result(
-                status == AppCapabilityAccessStatus.ALLOWED
-            )
-        )
+        set_from(future, AppCapability.create("Webcam").request_access_async())
 
     def take_photo(self, photo, device=None, flash=None):
         set_from(photo, self._take_photo(device, flash))
