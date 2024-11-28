@@ -89,8 +89,6 @@ class Camera:
             await encoder.flush_async()
             buf = Buffer(stream.size)
 
-            data = memoryview(
-                await stream.read_async(buf, stream.size, InputStreamOptions.NONE)
-            ).tobytes()
+            data = await stream.read_async(buf, stream.size, InputStreamOptions.NONE)
 
             return Image(data)
