@@ -25,7 +25,7 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
         xfail("Winforms does not support camera permissions")
 
     def disconnect_cameras(self):
-        pass
+        xfail("Winforms does not support disconnecting cameras")
 
     def allow_permission(self):
         pass
