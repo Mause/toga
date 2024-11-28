@@ -1,7 +1,8 @@
 import faulthandler
 
-from pillow import Image
 from pytest import xfail
+
+from toga import Image
 
 from .hardware import CameraProbeMixin, HardwareProbe
 
@@ -30,7 +31,7 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
         pass
 
     async def press_shutter_button(self, photo):
-        return Image.new("RGB", (5, 5), 5), "device_used", "flash_mode"
+        return Image(b"RGB"), "device_used", "flash_mode"
 
     def request_permission_on_first_use(self):
         pass

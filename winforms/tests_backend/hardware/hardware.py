@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pillow import Image
+from toga import Image
 
 from ..app import AppProbe
 
