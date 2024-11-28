@@ -33,7 +33,7 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
     async def press_shutter_button(self, photo):
         return (
             Image(
-                path=self.app.paths.app / "resources/photo.png",
+                src=self.app.paths.app / "resources/photo.png",
             ),
             "device_used",
             "flash_mode",
