@@ -3,6 +3,7 @@ import faulthandler
 from pytest import xfail
 
 from toga import Image
+from toga.constants import FlashMode
 
 from .hardware import CameraProbeMixin, HardwareProbe
 
@@ -36,7 +37,7 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
                 src=self.app.paths.app / "resources/photo.png",
             ),
             "device_used",
-            "flash_mode",
+            FlashMode.AUTO,
         )
 
     def request_permission_on_first_use(self):
@@ -64,5 +65,5 @@ class CameraProbe(HardwareProbe, CameraProbeMixin):
     def same_device(self, device, native):
         return device.id == native.id
 
-    def same_flash_mode(self, expected, actual):
+    def same_flash_mode(self, expected: FlashMode, actual: FlashMode):
         return expected == actual
