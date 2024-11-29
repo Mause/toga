@@ -20,6 +20,7 @@ from winrt.windows.storage.streams import (
 )
 
 from toga import Image
+from toga.constants import FlashMode
 from toga.handlers import AsyncResult
 
 
@@ -60,10 +61,10 @@ class Camera:
     def request_permission(self, future: AsyncResult):
         set_from(future, AppCapability.create("Webcam").request_access_async())
 
-    def take_photo(self, photo, device=None, flash=None):
+    def take_photo(self, photo, device=None, flash: FlashMode = FlashMode.AUTO):
         set_from(photo, self._take_photo(device, flash))
 
-    async def _take_photo(self, device=None, flash=None):
+    async def _take_photo(self, device, flash):
         mediaCapture = MediaCapture()
 
         settings = MediaCaptureInitializationSettings()
@@ -72,8 +73,12 @@ class Camera:
 
         await mediaCapture.initialize_async(settings)
 
-        if flash:
-            mediaCapture.video_device_controller.flash_control.enabled = True
+        flash_control = mediaCapture.video_device_controller
+        if flash.supported:
+            if flash == FlashMode.AUTO:
+                flash_control.auto = True
+            else:
+                flash_control.enabled = flash == FlashMode.ON
 
         mediaCapture.add_failed(lambda obj, args: print(args.Message))
 
