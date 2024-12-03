@@ -65,8 +65,6 @@ def run_tests(app, cov, args, report_coverage, run_slow, running_in_ci):
                 "-Wignore::toga.NotImplementedWarning",
                 # Run all async tests and fixtures using pytest-asyncio.
                 "--asyncio-mode=auto",
-                "--alluredir",
-                "D:\\a\\toga\\toga\\testbed\\logs",
                 "--override-ini",
                 "asyncio_default_fixture_loop_scope=session",
                 # Override the cache directory to be somewhere known writable
