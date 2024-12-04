@@ -105,7 +105,7 @@ class Camera:
 
     async def get_devices(self) -> list[CameraDevice]:
         devices = DevicesResult()
-        self._impl.get_devices()
+        self._impl.get_devices(devices)
         return [CameraDevice(impl) for impl in await devices]
 
     def take_photo(
