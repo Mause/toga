@@ -107,3 +107,6 @@ android.defaultConfig.python {
 requires = [
     "../web"
 ]
+
+[tool.coverage.run]
+relative_files = true
