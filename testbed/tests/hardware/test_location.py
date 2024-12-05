@@ -90,8 +90,6 @@ async def test_grant_background_permission(app, location_probe):
 
 async def test_deny_background_permission(app, location_probe):
     """A user can deny background permission to use location."""
-    skip_on_platforms("windows")
-
     # Foreground permissions haven't been approved, so requesting background permissions
     # will raise an error.
     with pytest.raises(
