@@ -2,18 +2,21 @@ from asyncio import ensure_future
 from collections.abc import Coroutine
 from dataclasses import dataclass
 
-from winrt.windows.devices.enumeration import DeviceClass, DeviceInformation
-from winrt.windows.graphics.imaging import BitmapEncoder
-from winrt.windows.media.capture import MediaCapture, MediaCaptureInitializationSettings
-from winrt.windows.media.mediaproperties import (
+from win32more.Windows.Devices.Enumeration import DeviceClass, DeviceInformation
+from win32more.Windows.Graphics.Imaging import BitmapEncoder
+from win32more.Windows.Media.Capture import (
+    MediaCapture,
+    MediaCaptureInitializationSettings,
+)
+from win32more.Windows.Media.MediaProperties import (
     ImageEncodingProperties,
     MediaPixelFormat,
 )
-from winrt.windows.security.authorization.appcapabilityaccess import (
+from win32more.Windows.Security.Authorization.AppCapabilityAccess import (
     AppCapability,
     AppCapabilityAccessStatus,
 )
-from winrt.windows.storage.streams import (
+from win32more.Windows.Storage.Streams import (
     Buffer,
     InMemoryRandomAccessStream,
     InputStreamOptions,
