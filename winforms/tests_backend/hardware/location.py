@@ -56,6 +56,9 @@ class LocationProbe(HardwareProbe):
         """
         pass
 
+    def request_background_permission(self):
+        self.reject_permission()
+
     async def simulate_location_error(self, loco):
         await self.redraw("Wait for location error")
 
