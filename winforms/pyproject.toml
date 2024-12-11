@@ -63,6 +63,7 @@ root = ".."
 dependencies = [
     "pythonnet >= 3.0.0",
     "toga-core == {version}",
+    "win32more",
 ]
 
 [tool.coverage.run]

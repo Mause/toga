@@ -4,6 +4,7 @@ from . import dialogs
 from .app import App
 from .command import Command
 from .fonts import Font
+from .hardware.camera import Camera
 from .icons import Icon
 from .images import Image
 from .paths import Paths
@@ -56,6 +57,7 @@ __all__ = [
     "Box",
     "Button",
     "Canvas",
+    "Camera",
     "DateInput",
     "DetailedList",
     "Divider",
