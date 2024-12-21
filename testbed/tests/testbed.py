@@ -70,6 +70,7 @@ def run_tests(app, cov, args, report_coverage, run_slow, running_in_ci):
                 # Override the cache directory to be somewhere known writable
                 "--override-ini",
                 f"cache_dir={tempfile.gettempdir()}/.pytest_cache",
+                "--timeout=300",
             ]
             + args
         )
