@@ -4,6 +4,7 @@ from pytest import xfail
 from System.Device.Location import (
     GeoCoordinate,
     GeoCoordinateWatcher,
+    GeoPositionChangedEventArgs,
     GeoPositionPermission,
 )
 
@@ -65,6 +66,12 @@ class LocationProbe(HardwareProbe):
 
     async def simulate_current_location(self, location):
         await self.redraw("Wait for current location")
+
+        watcher = self.app.location._impl.watcher
+        call = watcher.add_PositionChanged.mock_calls[0]
+        cb = call.args[0]
+
+        cb(None, GeoPositionChangedEventArgs[GeoCoordinate](self._locations[0]))
 
         self.reset_locations()
 
