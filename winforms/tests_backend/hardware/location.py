@@ -64,6 +64,13 @@ class LocationProbe(HardwareProbe):
 
         xfail("Winforms's location service doesn't raise errors on failure")
 
+    def setup_location_error(self):
+        # location error simulation handled by ``simulate_location_error``
+        pass
+
+    def setup_tracking_start_error(self):
+        xfail("Tracking start cannot fail on Winforms")
+
     async def simulate_current_location(self, location):
         await self.redraw("Wait for current location")
 
