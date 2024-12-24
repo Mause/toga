@@ -88,7 +88,7 @@ class Location:
             self.watcher.remove_PositionChanged(cb)
             loco = toga_location(event.Position.Location)
             result.set_result(loco["location"] if loco else None)
-            ctx.__exit__()
+            ctx.__exit__(None, None, None)
 
         ctx = self.context()
 
