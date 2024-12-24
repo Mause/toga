@@ -41,7 +41,11 @@ class LocationProbe(HardwareProbe):
 
     def add_location(self, location: LatLng, altitude, cached=False):
         position = GeoPosition[GeoCoordinate]()
-        position.Location = GeoCoordinate(location.lat, location.lng, altitude)
+        position.Location = (
+            GeoCoordinate(location.lat, location.lng)
+            if altitude is None
+            else GeoCoordinate(location.lat, location.lng, altitude)
+        )
 
         self._locations.append(GeoPositionChangedEventArgs[GeoCoordinate](position))
         self.app.location._impl.watcher.Position = position
