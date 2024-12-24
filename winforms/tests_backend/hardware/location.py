@@ -1,6 +1,7 @@
 from unittest.mock import Mock
 
 from pytest import xfail
+from System import DateTimeOffset
 from System.Device.Location import (
     GeoCoordinate,
     GeoCoordinateWatcher,
@@ -40,12 +41,9 @@ class LocationProbe(HardwareProbe):
         self.app.location._impl.watcher.Permission = GeoPositionPermission.Denied
 
     def add_location(self, location: LatLng, altitude, cached=False):
-        position = GeoPosition[GeoCoordinate]()
-        position.Location = (
-            GeoCoordinate(location.lat, location.lng)
-            if altitude is None
-            else GeoCoordinate(location.lat, location.lng, altitude)
-        )
+        coordinate = GeoCoordinate(location.lat, location.lng)
+        coordinate.Altitude = altitude
+        position = GeoPosition[GeoCoordinate](DateTimeOffset.Now, coordinate)
 
         self._locations.append(GeoPositionChangedEventArgs[GeoCoordinate](position))
         self.app.location._impl.watcher.Position = position
