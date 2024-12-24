@@ -1,9 +1,12 @@
 from unittest.mock import Mock
 
 from pytest import xfail
+from System import DateTimeOffset
 from System.Device.Location import (
     GeoCoordinate,
     GeoCoordinateWatcher,
+    GeoPosition,
+    GeoPositionChangedEventArgs,
     GeoPositionPermission,
 )
 
@@ -38,16 +41,12 @@ class LocationProbe(HardwareProbe):
         self.app.location._impl.watcher.Permission = GeoPositionPermission.Denied
 
     def add_location(self, location: LatLng, altitude, cached=False):
-        m = Mock(spec=GeoCoordinate)
-        m.Position = Mock()
-        m.Position.Location = Mock()
-        m.Position.Location.IsUnknown = False
-        m.Position.Location.Latitude = location.lat
-        m.Position.Location.Longitude = location.lng
-        m.Position.Location.Altitude = altitude
+        coordinate = GeoCoordinate(location.lat, location.lng)
+        coordinate.Altitude = altitude
+        position = GeoPosition[GeoCoordinate](DateTimeOffset.Now, coordinate)
 
-        self._locations.append(m)
-        self.app.location._impl.watcher.Position = m.Position
+        self._locations.append(GeoPositionChangedEventArgs[GeoCoordinate](position))
+        self.app.location._impl.watcher.Position = position
 
     def reset_locations(self):
         self._locations = []
@@ -63,8 +62,21 @@ class LocationProbe(HardwareProbe):
 
         xfail("Winforms's location service doesn't raise errors on failure")
 
+    def setup_location_error(self):
+        # location error simulation handled by ``simulate_location_error``
+        pass
+
+    def setup_tracking_start_error(self):
+        xfail("Tracking start cannot fail on Winforms")
+
     async def simulate_current_location(self, location):
         await self.redraw("Wait for current location")
+
+        watcher = self.app.location._impl.watcher
+        call = watcher.add_PositionChanged.mock_calls[0]
+        cb = call.args[0]
+
+        cb(None, self._locations[0])
 
         self.reset_locations()
 
